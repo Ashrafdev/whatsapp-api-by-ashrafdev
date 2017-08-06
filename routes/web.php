@@ -16,18 +16,23 @@ use App\Datas;
 
 $app->get('/', function (Request $request) use ($app) {
     return response()->json([
-        "message" => sprintf("enter phone number with country code parameter 1 without dash example %s/60123456789", $request->root()),
+        "message" => sprintf("Enter phone number with country code parameter 1 without dash example %s/60123456789 and you can use query string for add text ?text=Hello", $request->root()),
     ]);
 });
 
-$app->get('/{phone:[+-]?[0-9]{1,13}}', function ($phone) use ($app) {
+$app->get('/{phone:[+-]?[0-9]{1,13}}', function ($phone, Request $request) use ($app) {
 
     $phone = (integer)$phone;
+    $text = $request->input('text');
 
     if (is_integer($phone)) {
 
-        $data = Datas::create(['phone' => $phone]);
-        $redirect_url = sprintf("https://api.whatsapp.com/send?phone=%d&text=Hello", $data->phone);
+        Datas::create([
+            'phone' => $phone,
+            'text' => $text ?? null
+        ]);
+
+        $redirect_url = sprintf("https://api.whatsapp.com/send?phone=%d&text=%s", $phone, $text);
 
         return redirect($redirect_url);
     }
