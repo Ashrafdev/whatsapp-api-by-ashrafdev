@@ -14,6 +14,8 @@
 use Illuminate\Http\Request;
 use App\Datas;
 
+config(['app.timezone' => 'Asia/Kuala_Lumpur']);
+
 $app->get('/', function (Request $request) use ($app) {
     return response()->json([
         "message" => sprintf("Enter phone number with country code parameter 1 without dash example %s/60123456789 and you can use query string for add text ?text=Hello", $request->root()),
