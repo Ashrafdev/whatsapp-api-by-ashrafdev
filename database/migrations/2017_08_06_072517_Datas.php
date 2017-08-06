@@ -16,6 +16,7 @@ class Datas extends Migration
         Schema::create('datas', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('phone');
+            $table->string('name')->nullable();
             $table->text('text')->nullable();
             $table->timestamps();
         });

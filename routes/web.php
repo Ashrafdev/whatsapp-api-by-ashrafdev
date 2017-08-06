@@ -24,12 +24,14 @@ $app->get('/{phone:[+-]?[0-9]{1,13}}', function ($phone, Request $request) use (
 
     $phone = (integer)$phone;
     $text = $request->input('text');
+    $name = $request->input('name');
 
     if (is_integer($phone)) {
 
         Datas::create([
+            'name' => $name ?? null,
+            'text' => $text ?? null,
             'phone' => $phone,
-            'text' => $text ?? null
         ]);
 
         $redirect_url = sprintf("https://api.whatsapp.com/send?phone=%d&text=%s", $phone, $text);
