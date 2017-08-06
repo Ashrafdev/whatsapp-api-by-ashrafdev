@@ -17,29 +17,28 @@ use App\Datas;
 config(['app.timezone' => 'Asia/Kuala_Lumpur']);
 
 $app->get('/', function (Request $request) use ($app) {
-    return response()->json([
-        "message" => sprintf("Enter phone number with country code parameter 1 without dash example %s/60123456789 and you can use query string for add text ?text=Hello", $request->root()),
+    return response([
+        "message" => sprintf("Enter phone number with country code parameter 1 without dash example %s/60123456789 and you can use query string for add text ?text=Hello", $request->root())
     ]);
 });
 
 $app->get('/{phone:[+-]?[0-9]{1,13}}', function ($phone, Request $request) use ($app) {
 
-    $text = $request->input('text');
-    $name = $request->input('name');
-    $phone = (integer)$phone;
+    $request->request->add(['phone' => (int)$phone]);
 
-    if (is_integer($phone)) {
+    $this->validate($request, [
+        'name' => 'string|max:255',
+        'text' => 'string',
+        'phone' => 'required|integer',
+    ]);
 
-        Datas::create([
-            'name' => $name ?? null,
-            'text' => $text ?? null,
-            'phone' => $phone,
-        ]);
+    Datas::create([
+        'name' => $name ?? null,
+        'text' => $text ?? null,
+        'phone' => $phone,
+    ]);
 
-        $redirect_url = sprintf("https://api.whatsapp.com/send?phone=%d&text=%s", $phone, $text);
+    $redirect_url = sprintf("https://api.whatsapp.com/send?phone=%d&text=%s", $phone, $text);
 
-        return redirect($redirect_url);
-    }
-
-    return redirect('/');
+    return redirect($redirect_url);
 });
