@@ -22,9 +22,9 @@ $app->get('/', function (Request $request) use ($app) {
 
 $app->get('/{phone:[+-]?[0-9]{1,13}}', function ($phone, Request $request) use ($app) {
 
-    $phone = (integer)$phone;
     $text = $request->input('text');
     $name = $request->input('name');
+    $phone = (integer)$phone;
 
     if (is_integer($phone)) {
 
