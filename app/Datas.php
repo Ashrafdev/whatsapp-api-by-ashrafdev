@@ -13,7 +13,7 @@ class Datas extends Model
      * @var array
      */
     protected $fillable = [
-        'phone', 'text',
+        'phone', 'text', 'name'
     ];
 
     /**
@@ -23,7 +23,8 @@ class Datas extends Model
      */
 
     protected $casts = [
-        'phone' => 'integer',
+        'phone' => 'string',
         'text' => 'string',
+        'name' => 'string',
     ];
 }
