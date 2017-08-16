@@ -37,8 +37,8 @@ $app->get('/{phone:[+-]?[0-9]{1,13}}', function ($phone, Request $request) use (
     $phone = $request->get('phone');
 
     Datas::create([
-        'name' => $name ?? null,
-        'text' => $text ?? null,
+        'name' => $name,
+        'text' => $text,
         'phone' => $phone
     ]);
 
