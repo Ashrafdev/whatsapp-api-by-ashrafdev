@@ -24,12 +24,12 @@ $app->get('/', function (Request $request) use ($app) {
 
 $app->get('/{phone:[+-]?[0-9]{1,13}}', function ($phone, Request $request) use ($app) {
 
-    $request->request->add(['phone' => (int)$phone]);
+    $request->request->add(['phone' => $phone]);
 
     $this->validate($request, [
         'name' => 'string|max:255',
         'text' => 'string',
-        'phone' => 'required|integer',
+        'phone' => 'required',
     ]);
 
     $name = $request->get('name');
@@ -39,7 +39,7 @@ $app->get('/{phone:[+-]?[0-9]{1,13}}', function ($phone, Request $request) use (
     Datas::create([
         'name' => $name ?? null,
         'text' => $text ?? null,
-        'phone' => $phone,
+        'phone' => $phone
     ]);
 
     $redirect_url = sprintf("https://api.whatsapp.com/send?phone=%d&text=%s", $phone, $text);
