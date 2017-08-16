@@ -29,7 +29,7 @@ $app->get('/{phone:[+-]?[0-9]{1,13}}', function ($phone, Request $request) use (
     $this->validate($request, [
         'name' => 'string|max:255',
         'text' => 'string',
-        'phone' => 'required',
+        'phone' => 'required|string',
     ]);
 
     $name = $request->get('name');
